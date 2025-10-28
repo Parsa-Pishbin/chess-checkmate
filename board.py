@@ -49,6 +49,17 @@ class ChessBoard:
         result = danger_locations.intersection({(king.row, king.index)}) or None
         return False if result is None else True
     
+    def is_check_mate(self, color):
+        if not self.is_check(color): return False
+        if self.can_king_escape_or_attack(color): return False
+        
+        attackers = self.attacker_pieces_to(self.get_king(color))
+        if len(attackers)> 1: return True
+        
+        if self.can_other_pieces_attack_for_king(color): return False
+        if self.can_other_pieces_sacrifice_for_king(color): return False
+        return True
+        
     def get_king(self, color) -> King:
         try:
             king = next(filter(lambda piece: isinstance(piece, King), self.pieces[color]))
