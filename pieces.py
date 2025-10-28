@@ -30,6 +30,9 @@ class Piece:
 
         return result
     
+    def get_moves(self):
+        return self.get_actions()
+    
     def calculate_action(self, direction):
         dr, di = direction
         if not self.color:
@@ -87,6 +90,17 @@ class DynamicActionsCalculatorMixin:
 
 class Pawn(Piece):
     directions = [(+1, -1), (+1, +1)]
+
+    def get_moves(self):
+        moves = set()
+        directions = [(+1, 0)]
+        if self.row in (6, 1):
+            directions += [(+2, 0)]
+        for direction in directions:
+            move = self.calculate_action(direction)
+            if move is not None and self.board[move[0]][move[1]] is None:
+                moves.add(move)
+        return moves
 
 
 class Bishop(DynamicActionsCalculatorMixin, Piece):
