@@ -89,13 +89,25 @@ class Pawn(Piece):
     directions = [(+1, -1), (+1, +1)]
 
 
+class Bishop(DynamicActionsCalculatorMixin, Piece):
+    dynamic_directions = [(-1, -1), (1, -1), (1, 1), (-1, 1)]
+
+
 class Knight(Piece):
     directions = [(+2, -1), (+2, +1), (-2, -1), (-2, +1), (+1, -2), (-1, -2), (+1, +2), (-1, +2),]
 
     
+class Rook(DynamicActionsCalculatorMixin, Piece):
+    dynamic_directions = [(+1, 0), (-1, 0), (0, +1), (0, -1)]
+
+
 class King(Piece):
     directions = [(+1, -1), (+1, 0), (+1, +1),
                   (0, -1),            (0, +1),
                   (-1, -1), (-1, 0), (-1, +1)]
 
+
+class Queen(DynamicActionsCalculatorMixin, Piece):
+    directions = King.directions
+    dynamic_directions = Bishop.dynamic_directions + Rook.dynamic_directions
     
