@@ -88,6 +88,17 @@ class ChessBoard:
             return True
         return False
         
+    def __points_between(self, location_1, location_2, n):
+        x1, y1 = location_1
+        x2, y2 = location_2
+        points = set()
+        for i in range(1, n):
+            t = i / n
+            x = x1 + t * (x2 - x1)
+            y = y1 + t * (y2 - y1)
+            points.add((int(x), int(y)))
+        return points
+
     def get_pieces_actions(self, color, *exclude):
         result = set()
         for piece in self.pieces[color]:
@@ -96,6 +107,17 @@ class ChessBoard:
             result.update(piece.get_actions())
         
         return result
+
+    def get_pieces_moves(self, color, *exclude):
+        moves = set()
+        for piece in self.pieces[color]:
+            if exclude and isinstance(piece, exclude):
+                continue
+                
+            moves.update(piece.get_moves())
+
+        return moves
+    
 
     free_spaces = lambda self : [(row_i, index_j) for row_i, row in enumerate(self.board) for index_j, index in enumerate(row) if index is None]
     free_spaces = property(fget=free_spaces)
