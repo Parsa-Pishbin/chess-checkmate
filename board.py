@@ -28,6 +28,13 @@ class ChessBoard:
             locations.add((piece.row, piece.index))
         return locations
 
+    def is_check(self, color):
+        king = self.get_king(color)
+
+        danger_locations = self.get_pieces_actions(not color)
+        result = danger_locations.intersection({(king.row, king.index)}) or None
+        return False if result is None else True
+    
     def get_king(self, color) -> King:
         try:
             king = next(filter(lambda piece: isinstance(piece, King), self.pieces[color]))
