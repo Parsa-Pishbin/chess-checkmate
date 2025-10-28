@@ -66,6 +66,14 @@ class ChessBoard:
 
         return False if result is None else True
     
+    def attacker_pieces_to(self, piece):
+        attackers = []
+        for opponent_piece in self.pieces[not piece.color]:
+            if piece.location in opponent_piece.get_actions():
+                attackers.append(opponent_piece)
+
+        return attackers
+
     def get_pieces_actions(self, color, *exclude):
         result = set()
         for piece in self.pieces[color]:
