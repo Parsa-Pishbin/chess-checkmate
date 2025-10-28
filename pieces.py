@@ -1,3 +1,6 @@
+WHITE = True
+BLACK = False
+
 class Piece:
     row:int = None
     index:int = None
