@@ -51,32 +51,23 @@ class ChessBoard:
             locations.add((piece.row, piece.index))
         return locations
 
-    def pop(self, piece=None, location:tuple[int, int]=None):
-        if (piece and location) or (piece is None and location is None):
-            raise ValueError('you should set once of piece or (row and index)')
         
-        if piece is not None:
-            piece = self.board[piece.row][piece.index]
-            self.board[piece.row][piece.index] = None
-            return piece
-
-        if location is not None:
-            row, index = location
-            piece = self.board[row][index]
-            self.board[row][index] = None
-            return piece
+    def pop(self, location:tuple[int, int]):
+        row, index = location
+        if self.board[row][index] is None:
+            raise IndexError('the location is empty')
         
-    def move(self, piece=None, new_location=None, old_location=None):
-        if new_location is None or (piece is not None and old_location is not None):
-            raise ValueError('you should set once of (piece and new_location) or (new_location and old_location)')
+        piece = self.board[row][index]
+        self.board[row][index] = None
+        self.pieces[piece.color].remove(piece)
+        return piece
         
-        if piece is not None:
-            self.pop(piece=piece)
-            self.insert(piece, *new_location)
-
-        if old_location is not None:
-            piece = self.pop(location=old_location)
-            self.insert(piece, *new_location)
+    def move(self, piece:Piece, new_location):
+        row, index = new_location
+        if self.board[row][index] is not None:
+            raise ValueError(f'the {new_location} already captured by another piece')
+        
+        self.insert(self.pop_piece(piece), row, index)
 
     def is_check(self, color):
         king = self.get_king(color)
