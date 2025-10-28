@@ -56,6 +56,16 @@ class ChessBoard:
         except Exception:
             raise ValueError('The King not exists')
 
+    def can_king_escape_or_attack(self, color):      # OK (should use after check)
+        king = self.get_king(color)
+        teammate_locations = self.get_pieces_location(color)
+        
+        king_available_actions = king.get_actions().difference(teammate_locations)
+        danger_locations = self.get_pieces_actions(not color)
+        result = king_available_actions.difference(danger_locations) or None
+
+        return False if result is None else True
+    
     def get_pieces_actions(self, color, *exclude):
         result = set()
         for piece in self.pieces[color]:
