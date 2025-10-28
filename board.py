@@ -1,4 +1,4 @@
-from pieces import Piece
+from pieces import King, Piece
 
 class ChessBoard:
     board = None
@@ -22,6 +22,19 @@ class ChessBoard:
         else:
             raise ValueError(f'({row}, {index}) is full !\nplease remove ({row}, {index}) first, then add another piece')
     
+    def get_pieces_location(self, color):
+        locations = set()
+        for piece in self.pieces[color]:
+            locations.add((piece.row, piece.index))
+        return locations
+
+    def get_king(self, color) -> King:
+        try:
+            king = next(filter(lambda piece: isinstance(piece, King), self.pieces[color]))
+            return king
+        except Exception:
+            raise ValueError('The King not exists')
+
     def get_pieces_actions(self, color, *exclude):
         result = set()
         for piece in self.pieces[color]:
