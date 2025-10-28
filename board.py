@@ -14,7 +14,6 @@ class ChessBoard:
         line = "-|" + ( f"{'-' *15}|"*8)
         empty_line = " |" + ( f"{' ' *15}|"*8)
         print(line)
-        print(empty_line)  if large else None
         
         for row_i, row in enumerate(reversed(self.board)):
             temp = [str(7-row_i)] + [f'{str(i if i else ""):^15}' for i in row] + ['']
