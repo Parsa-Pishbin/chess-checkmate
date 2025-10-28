@@ -74,6 +74,20 @@ class ChessBoard:
 
         return attackers
 
+    def can_other_pieces_attack_for_king(self, color):          # (should use check after number of attackers)
+        king = self.get_king(color)
+        attackers = self.attacker_pieces_to(king)
+
+        if len(attackers) > 1 or len(attackers) == 0: # second part is optional and not required
+            return False
+        
+        attacker = attackers[0]
+        teammate_actions = self.get_pieces_actions(color, King)
+
+        if attacker.location in teammate_actions:
+            return True
+        return False
+        
     def get_pieces_actions(self, color, *exclude):
         result = set()
         for piece in self.pieces[color]:
