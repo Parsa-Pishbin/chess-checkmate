@@ -1,5 +1,4 @@
-from  pieces import Piece
-
+from pieces import Piece
 
 class ChessBoard:
     board = None
@@ -23,6 +22,14 @@ class ChessBoard:
         else:
             raise ValueError(f'({row}, {index}) is full !\nplease remove ({row}, {index}) first, then add another piece')
     
+    def get_pieces_actions(self, color, *exclude):
+        result = set()
+        for piece in self.pieces[color]:
+            if exclude and isinstance(piece, exclude):
+                continue
+            result.update(piece.get_actions())
+        
+        return result
 
     free_spaces = lambda self : [(row_i, index_j) for row_i, row in enumerate(self.board) for index_j, index in enumerate(row) if index is None]
     free_spaces = property(fget=free_spaces)
