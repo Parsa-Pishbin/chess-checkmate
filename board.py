@@ -36,6 +36,15 @@ class ChessBoard:
         else:
             raise ValueError(f'({row}, {index}) is full !\nplease remove ({row}, {index}) first, then add another piece')
     
+    @property
+    def status(self):
+        for color in self.pieces:
+            check = self.is_check(color)
+            check_mate = self.is_check_mate(color)
+            print(f'{"White" if color else "Black"} check :', check)
+            print(f'{"White" if color else "Black"} check mate:', check_mate) if check else None
+            print()
+            
     def get_pieces_location(self, color):
         locations = set()
         for piece in self.pieces[color]:
