@@ -76,7 +76,7 @@ class ChessBoard:
         except Exception:
             raise ValueError('The King not exists')
 
-    def can_king_escape_or_attack(self, color):      # OK (should use after check)
+    def can_king_escape_or_attack(self, color):
         king = self.get_king(color)
         teammate_locations = self.get_pieces_location(color)
         
@@ -94,7 +94,7 @@ class ChessBoard:
 
         return attackers
 
-    def can_other_pieces_attack_for_king(self, color):          # (should use check after number of attackers)
+    def can_other_pieces_attack_for_king(self, color):
         king = self.get_king(color)
         attackers = self.attacker_pieces_to(king)
 
@@ -134,7 +134,7 @@ class ChessBoard:
         places = max(abs(king.row-attacker.row), abs(king.index - attacker.index))
         if places < 2: return False
         
-        sacrificable_places = self.__points_between(king.location, attacker.location, places) #+ [attacker.location]
+        sacrificable_places = self.__points_between(king.location, attacker.location, places)
         teammate_moves = self.get_pieces_moves(color, King)
 
         if teammate_moves.intersection(sacrificable_places):
