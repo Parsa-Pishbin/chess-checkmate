@@ -40,4 +40,18 @@ class Piece:
         if -1 < new_row < 8 and -1 < new_index < 8:
             return (new_row, new_index)
 
+
+class Pawn(Piece):
+    directions = [(+1, -1), (+1, +1)]
+
+
+class Knight(Piece):
+    directions = [(+2, -1), (+2, +1), (-2, -1), (-2, +1), (+1, -2), (-1, -2), (+1, +2), (-1, +2),]
+
+    
+class King(Piece):
+    directions = [(+1, -1), (+1, 0), (+1, +1),
+                  (0, -1),            (0, +1),
+                  (-1, -1), (-1, 0), (-1, +1)]
+
     
