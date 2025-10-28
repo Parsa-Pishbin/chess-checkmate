@@ -51,7 +51,14 @@ class ChessBoard:
             locations.add((piece.row, piece.index))
         return locations
 
+    def pop_piece(self, piece:Piece):
+        if piece.board is not self.board:
+            raise ValueError(f'{piece} is not for this chess board')
         
+        self.pieces[piece.color].remove(piece)
+        self.board[piece.row][piece.index] = None
+        return piece
+
     def pop(self, location:tuple[int, int]):
         row, index = location
         if self.board[row][index] is None:
