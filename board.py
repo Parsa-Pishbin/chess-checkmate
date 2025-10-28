@@ -10,6 +10,20 @@ class ChessBoard:
             False : set(),
         }
 
+    def pprint_board(self, large=True):
+        line = "-|" + ( f"{'-' *15}|"*8)
+        empty_line = " |" + ( f"{' ' *15}|"*8)
+        print(line)
+        print(empty_line)  if large else None
+        
+        for row_i, row in enumerate(reversed(self.board)):
+            temp = [str(7-row_i)] + [f'{str(i if i else ""):^15}' for i in row] + ['']
+            print(empty_line, empty_line, sep='\n') if large else None
+            print('|'.join(temp))
+            print(empty_line, empty_line, sep='\n') if large else None
+            print(line)
+            
+        print(' |'+ '|'.join([f'{str(i):^15}' for i in range(8)] + ['']))
 
     def insert(self, piece:Piece, row:int, index:int): 
         if self.board[row][index] is None:
