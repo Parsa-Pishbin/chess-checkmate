@@ -1,4 +1,4 @@
-from pieces import King, Piece
+from  pieces import King, Piece, Queen, Bishop, Rook
 
 class ChessBoard:
     board = None
@@ -98,6 +98,28 @@ class ChessBoard:
             y = y1 + t * (y2 - y1)
             points.add((int(x), int(y)))
         return points
+
+    def can_other_pieces_sacrifice_for_king(self, color):
+        king = self.get_king(color)
+        attackers = self.attacker_pieces_to(king)
+
+        if len(attackers) > 1 or len(attackers) == 0: # second part is optional and not required
+            return False
+        
+        attacker = attackers[0]
+
+        if not isinstance(attacker, (Queen, Bishop, Rook)):
+            return False
+        
+        places = max(abs(king.row-attacker.row), abs(king.index - attacker.index))
+        if places < 2: return False
+        
+        sacrificable_places = self.__points_between(king.location, attacker.location, places) #+ [attacker.location]
+        teammate_moves = self.get_pieces_moves(color, King)
+
+        if teammate_moves.intersection(sacrificable_places):
+            return True
+        return False
 
     def get_pieces_actions(self, color, *exclude):
         result = set()
